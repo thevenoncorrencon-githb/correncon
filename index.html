@@ -17,7 +17,8 @@ button { padding:10px 20px; font-size:16px; cursor:pointer; }
 
 <h2>Connexion</h2>
 
-<form id="loginForm" autocomplete="on">
+<!-- Formulaire avec action vers une page factice -->
+<form id="loginForm" action="/login-success.html" method="POST" autocomplete="on">
     <input type="text" name="username" id="username" placeholder="Login" autocomplete="username" required>
     <input type="password" name="password" id="password" placeholder="Mot de passe" autocomplete="current-password" required>
     <button type="submit">Se connecter</button>
@@ -26,19 +27,21 @@ button { padding:10px 20px; font-size:16px; cursor:pointer; }
 <div id="resultat"></div>
 
 <script>
+// Validation côté client (optionnelle)
 document.getElementById('loginForm').addEventListener('submit', function(e) {
-    e.preventDefault(); // On empêche le rechargement de page
-
     const login = document.getElementById('username').value;
     const mdp = document.getElementById('password').value;
     const resultat = document.getElementById('resultat');
 
+    // Simulation simple avant de soumettre
     if(login === 'admin' && mdp === 'admin') {
-        resultat.textContent = 'OK1';
-        resultat.className = 'ok1';
+        resultat.textContent = 'Connexion OK2';
+        resultat.className = 'ok';
+        // La soumission se fait normalement → Chrome peut enregistrer le mot de passe
     } else {
-        resultat.textContent = 'NOK1';
-        resultat.className = 'nok1';
+        e.preventDefault(); // Empêche la redirection si mauvais login
+        resultat.textContent = 'Login ou mot de passe incorrect2';
+        resultat.className = 'nok';
     }
 });
 </script>
