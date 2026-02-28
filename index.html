@@ -11,53 +11,43 @@ button { padding:10px 20px; font-size:16px; cursor:pointer; }
 #resultat { margin-top:20px; font-size:20px; font-weight:bold; }
 .ok { color:green; }
 .nok { color:red; }
-#protectedContent { display:none; margin-top:30px; }
 </style>
 </head>
 <body>
 
 <h2>Connexion</h2>
 
-<form id="loginForm" action="" method="POST" autocomplete="on">
-    <input type="text" name="username" id="username" placeholder="Login" autocomplete="username" required>
-    <input type="password" name="password" id="password" placeholder="Mot de passe" autocomplete="current-password" required>
-    <button type="submit">Se connecter02</button>
+<!-- Formulaire réel -->
+<form id="loginForm" action="login-success.html" method="POST" autocomplete="on">
+    <input type="text" name="username" placeholder="Login" autocomplete="username" required>
+    <input type="password" name="password" placeholder="Mot de passe" autocomplete="current-password" required>
+    <button type="submit">Se connecter03</button>
 </form>
 
 <div id="resultat"></div>
 
-<div id="protectedContent">
-    <h2>Bienvenue !</h2>
-    <p>Vous êtes connecté. 🎉</p>
-</div>
-
 <script>
+// Affichage d'un message temporaire (optionnel)
 document.getElementById('loginForm').addEventListener('submit', function(e) {
-    const login = document.getElementById('username').value;
-    const mdp = document.getElementById('password').value;
+    const login = this.username.value;
+    const mdp = this.password.value;
     const resultat = document.getElementById('resultat');
-    const protectedContent = document.getElementById('protectedContent');
 
     if(login === 'admin' && mdp === 'admin') {
-        // Affiche le contenu protégé
-        protectedContent.style.display = 'block';
-        resultat.textContent = 'Connexion réussie !';
+        // Chrome détecte la soumission réelle → mot de passe proposé
+        resultat.textContent = 'Connexion OK, redirection…';
         resultat.className = 'ok';
-        this.style.display = 'none';
-        // NE PAS bloquer la soumission → Chrome peut proposer d'enregistrer le mot de passe
     } else {
+        // Si identifiants incorrects, bloquer la soumission
+        e.preventDefault();
         resultat.textContent = 'Login ou mot de passe incorrect';
         resultat.className = 'nok';
-        protectedContent.style.display = 'none';
-        e.preventDefault(); // Bloque la soumission seulement si identifiants incorrects
     }
 });
 </script>
 
 </body>
 </html>
-
-
 
 
 
