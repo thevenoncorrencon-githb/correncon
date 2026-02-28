@@ -1,12 +1,49 @@
-<form method="get" action="success.html">
-    <input type="text" name="username"
-           autocomplete="username" required>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login GitHub Pages</title>
+<style>
+body { font-family: Arial; text-align:center; margin-top:80px; }
+input { display:block; margin:10px auto; padding:8px; font-size:16px; }
+button { padding:10px 20px; font-size:16px; cursor:pointer; }
+#resultat { margin-top:20px; font-size:20px; font-weight:bold; }
+.ok { color:green; }
+.nok { color:red; }
+</style>
+</head>
+<body>
 
-    <input type="password" name="password"
-           autocomplete="current-password" required>
+<h2>Connexion</h2>
 
+<form id="loginForm" autocomplete="on">
+    <input type="text" name="username" id="username" placeholder="Login" autocomplete="username" required>
+    <input type="password" name="password" id="password" placeholder="Mot de passe" autocomplete="current-password" required>
     <button type="submit">Se connecter</button>
 </form>
 
+<div id="resultat"></div>
+
+<script>
+document.getElementById('loginForm').addEventListener('submit', function(e) {
+    e.preventDefault(); // On empêche le rechargement de page
+
+    const login = document.getElementById('username').value;
+    const mdp = document.getElementById('password').value;
+    const resultat = document.getElementById('resultat');
+
+    if(login === 'admin' && mdp === 'admin') {
+        resultat.textContent = 'OK';
+        resultat.className = 'ok';
+    } else {
+        resultat.textContent = 'NOK';
+        resultat.className = 'nok';
+    }
+});
+</script>
+
+</body>
+</html>
 
 
