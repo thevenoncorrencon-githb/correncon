@@ -1,3 +1,59 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login GitHub Pages</title>
+<style>
+body { font-family: Arial; text-align:center; margin-top:80px; }
+input { display:block; margin:10px auto; padding:8px; font-size:16px; }
+button { padding:10px 20px; font-size:16px; cursor:pointer; }
+#resultat { margin-top:20px; font-size:20px; font-weight:bold; }
+.ok { color:green; }
+.nok { color:red; }
+</style>
+</head>
+<body>
+
+<h2>Connexion</h2>
+
+<!-- Formulaire avec method GET pour éviter 405 sur GitHub Pages -->
+<form id="loginForm" action="/login-success.html" method="GET" autocomplete="on">
+    <input type="text" name="username" placeholder="Login" autocomplete="username" required>
+    <input type="password" name="password" placeholder="Mot de passe" autocomplete="current-password" required>
+    <button type="submit">Se connecter</button>
+</form>
+
+<div id="resultat"></div>
+
+<script>
+// Optionnel : afficher un message avant la redirection
+document.getElementById('loginForm').addEventListener('submit', function(e) {
+    const login = this.username.value;
+    const mdp = this.password.value;
+    const resultat = document.getElementById('resultat');
+
+    if(login === 'admin' && mdp === 'admin') {
+        resultat.textContent = 'Connexion OK4';
+        resultat.className = 'ok';
+    } else {
+        resultat.textContent = 'Login ou mot de passe incorrect4';
+        resultat.className = 'nok4';
+    }
+    // Ne pas bloquer la soumission ! Chrome doit détecter le formulaire
+});
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
