@@ -17,36 +17,34 @@ button { padding:10px 20px; font-size:16px; cursor:pointer; }
 
 <h2>Connexion</h2>
 
-<!-- Formulaire avec action vers une page factice -->
+<!-- Formulaire classique, soumis normalement -->
 <form id="loginForm" action="/login-success.html" method="POST" autocomplete="on">
-    <input type="text" name="username" id="username" placeholder="Login" autocomplete="username" required>
-    <input type="password" name="password" id="password" placeholder="Mot de passe" autocomplete="current-password" required>
+    <input type="text" name="username" placeholder="Login" autocomplete="username" required>
+    <input type="password" name="password" placeholder="Mot de passe" autocomplete="current-password" required>
     <button type="submit">Se connecter</button>
 </form>
 
 <div id="resultat"></div>
 
 <script>
-// Validation côté client (optionnelle)
+// Affichage d'un message côté client (optionnel) après la soumission
 document.getElementById('loginForm').addEventListener('submit', function(e) {
-    const login = document.getElementById('username').value;
-    const mdp = document.getElementById('password').value;
+    // juste pour l'effet visuel, ne bloque pas le submit
+    const login = this.username.value;
+    const mdp = this.password.value;
     const resultat = document.getElementById('resultat');
 
-    // Simulation simple avant de soumettre
     if(login === 'admin' && mdp === 'admin') {
-        resultat.textContent = 'Connexion OK2';
+        resultat.textContent = 'Connexion OK';
         resultat.className = 'ok';
-        // La soumission se fait normalement → Chrome peut enregistrer le mot de passe
     } else {
-        e.preventDefault(); // Empêche la redirection si mauvais login
-        resultat.textContent = 'Login ou mot de passe incorrect2';
+        resultat.textContent = 'Login ou mot de passe incorrect';
         resultat.className = 'nok';
     }
+    // ne pas faire e.preventDefault(), Chrome doit pouvoir soumettre le formulaire
 });
 </script>
 
 </body>
 </html>
-
 
