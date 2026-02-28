@@ -11,6 +11,7 @@ button { padding:10px 20px; font-size:16px; cursor:pointer; }
 #resultat { margin-top:20px; font-size:20px; font-weight:bold; }
 .ok { color:green; }
 .nok { color:red; }
+#protectedContent { display:none; margin-top:30px; }
 </style>
 </head>
 <body>
@@ -21,33 +22,42 @@ button { padding:10px 20px; font-size:16px; cursor:pointer; }
 <form id="loginForm" action="login-success.html" method="POST" autocomplete="on">
     <input type="text" name="username" placeholder="Login" autocomplete="username" required>
     <input type="password" name="password" placeholder="Mot de passe" autocomplete="current-password" required>
-    <button type="submit">Se connecter03</button>
+    <button type="submit">Se connecter05</button>
 </form>
 
 <div id="resultat"></div>
 
+<div id="protectedContent">
+    <h2>Bienvenue !</h2>
+    <p>Vous êtes connecté. 🎉</p>
+</div>
+
 <script>
-// Affichage d'un message temporaire (optionnel)
+// Affichage côté client si nécessaire
 document.getElementById('loginForm').addEventListener('submit', function(e) {
     const login = this.username.value;
     const mdp = this.password.value;
     const resultat = document.getElementById('resultat');
 
-    if(login === 'admin' && mdp === 'admin') {
-        // Chrome détecte la soumission réelle → mot de passe proposé
-        resultat.textContent = 'Connexion OK, redirection…';
-        resultat.className = 'ok';
-    } else {
-        // Si identifiants incorrects, bloquer la soumission
+    if(login !== 'admin' || mdp !== 'admin') {
+        // Login incorrect → bloquer
         e.preventDefault();
         resultat.textContent = 'Login ou mot de passe incorrect';
         resultat.className = 'nok';
+    } else {
+        // Login correct → Chrome voit la soumission réelle et propose le mot de passe
+        resultat.textContent = 'Connexion réussie…';
+        resultat.className = 'ok';
+        // Tout le reste géré côté login-success.html
     }
 });
 </script>
 
 </body>
 </html>
+
+
+
 
 
 
