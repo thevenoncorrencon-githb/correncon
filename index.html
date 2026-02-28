@@ -1,11 +1,39 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Mon premier site</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Boutons</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 10px;
+            cursor: pointer;
+        }
+        #display {
+            margin-top: 30px;
+            font-size: 20px;
+            color: #333;
+        }
+    </style>
 </head>
 <body>
-    <h1>Bienvenue sur mon site</h1>
-    <p>Ceci est ma première page web hébergée sur GitHub Pages.</p>
+    <h1>Test de boutons</h1>
+    <button onclick="changerTexte('Bonjour !')">Bouton 1</button>
+    <button onclick="changerTexte('Au revoir !')">Bouton 2</button>
+
+    <div id="display">Ici le texte s'affichera</div>
+
+    <script>
+        function changerTexte(texte) {
+            document.getElementById('display').innerText = texte;
+        }
+    </script>
 </body>
 </html>
