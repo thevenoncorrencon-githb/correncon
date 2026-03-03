@@ -3,34 +3,36 @@
 <head>
 <meta charset="UTF-8">
 <title>Page d'accueil</title>
-
 <style>
-    body {
+body {
     margin: 0;
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
 
     display: flex;
-    justify-content: center;   /* centre horizontal */
-    align-items: flex-start;   /* aligne en haut */
-    padding-top: 40px;         /* espace depuis le haut */
+    flex-direction: column;      /* empile verticalement */
+    align-items: center;         /* centre horizontalement */
+    padding-top: 40px;           /* espace en haut */
 }
-
 
 .container {
-    text-align: center;
+    width: 300px;
     background: white;
-    padding: 30px;
+    padding: 20px;
+    margin-bottom: 20px;         /* espace entre blocs */
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    text-align: center;
 }
 </style>
+
+
 
 <body>
 
     <h2>Page d'accueil</h2>
 
-    <input type="text" id="texte" placeholder="Correncon v06 - entre ton identifiant">
+    <input type="text" id="texte" placeholder="Correncon v07 - entre ton identifiant">
     <button onclick="envoyer()">Envoyer</button>
 
     <script>
