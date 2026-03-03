@@ -1,61 +1,46 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Login GitHub Pages</title>
-<style>
-body { font-family: Arial; text-align:center; margin-top:80px; }
-input { display:block; margin:10px auto; padding:8px; font-size:16px; }
-button { padding:10px 20px; font-size:16px; cursor:pointer; }
-#resultat { margin-top:20px; font-size:20px; font-weight:bold; }
-.ok { color:green; }
-.nok { color:red; }
-#protectedContent { display:none; margin-top:30px; }
-</style>
+<title>Accueil</title>
 </head>
 <body>
 
-<h2>Connexion</h2>
+<h2>Page d'accueil</h2>
 
-<!-- Formulaire réel -->
-<form id="loginForm" action="login-success.html" method="POST" autocomplete="on">
-    <input type="text" name="username" placeholder="Login" autocomplete="username" required>
-    <input type="password" name="password" placeholder="Mot de passe" autocomplete="current-password" required>
-    <button type="submit">Se connecter05</button>
-</form>
+<input type="text" id="texte" placeholder="Correncon v01- entre ton identifiant">
+<button onclick="envoyer()">Envoyer</button>
 
-<div id="resultat"></div>
-
-<div id="protectedContent">
-    <h2>Bienvenue !</h2>
-    <p>Vous êtes connecté. 🎉</p>
-</div>
+<p id="reponse"></p>
 
 <script>
-// Affichage côté client si nécessaire
-document.getElementById('loginForm').addEventListener('submit', function(e) {
-    const login = this.username.value;
-    const mdp = this.password.value;
-    const resultat = document.getElementById('resultat');
 
-    if(login !== 'admin' || mdp !== 'admin') {
-        // Login incorrect → bloquer
-        e.preventDefault();
-        resultat.textContent = 'Login ou mot de passe incorrect';
-        resultat.className = 'nok';
-    } else {
-        // Login correct → Chrome voit la soumission réelle et propose le mot de passe
-        resultat.textContent = 'Connexion réussie…';
-        resultat.className = 'ok';
-        // Tout le reste géré côté login-success.html
-    }
-});
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwJIfBh2_g8s9PLKu4Es8u9qm23fYJU2oODOFr2nYOb4PIN_UskHl31amUNerdk3oSkjA/exec";
+
+function envoyer() {
+
+  let texte = document.getElementById("texte").value;
+
+  fetch(SCRIPT_URL + "?cde=" + encodeURIComponent(texte))
+    .then(response => response.text())
+    .then(data => {
+
+      document.getElementById("reponse").innerText = data;
+
+      if (data.startsWith("OK")) {
+        window.location.href = "page2.html";
+      }
+
+    })
+    .catch(error => {
+      alert("Erreur : " + error);
+    });
+}
+
 </script>
 
 </body>
 </html>
-
 
 
 
