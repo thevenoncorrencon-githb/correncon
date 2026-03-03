@@ -1,3 +1,58 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Page d'accueil</title>
+</head>
+<body>
+
+    <h2>Page d'accueil</h2>
+
+    <input type="text" id="texte" placeholder="Correncon v02 - entre ton identifiant">
+    <button onclick="envoyer()">Envoyer</button>
+
+    <script>
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwJIfBh2_g8s9PLKu4Es8u9qm23fYJU2oODOFr2nYOb4PIN_UskHl31amUNerdk3oSkjA/exec";
+        //const SCRIPT_URL = "COLLE_ICI_TON_URL_GOOGLE_SCRIPT";
+
+        function envoyer() {
+
+            let texte = document.getElementById("texte").value;
+
+            fetch(SCRIPT_URL + "?cde=" + encodeURIComponent(texte))
+                .then(response => response.text())
+                .then(data => {
+
+                    // récupération complète de la réponse
+                    console.log("Réponse complète :", data);
+
+                    // si la réponse commence par OK → page2
+                    if (data.startsWith("input:OK")) {
+                        window.location.href = "page2.html";
+                    }
+
+                })
+                .catch(error => {
+                    console.error("Erreur :", error);
+                });
+        }
+
+    </script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
 <script>
 
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwJIfBh2_g8s9PLKu4Es8u9qm23fYJU2oODOFr2nYOb4PIN_UskHl31amUNerdk3oSkjA/exec";
