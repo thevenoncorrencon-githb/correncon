@@ -5,15 +5,17 @@
 <title>Page d'accueil</title>
 
 <style>
-body {
+    body {
     margin: 0;
-    height: 100vh;
-    display: flex;
-    justify-content: center;   /* centre horizontal */
-    align-items: center;       /* centre vertical */
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
+
+    display: flex;
+    justify-content: center;   /* centre horizontal */
+    align-items: flex-start;   /* aligne en haut */
+    padding-top: 40px;         /* espace depuis le haut */
 }
+
 
 .container {
     text-align: center;
@@ -28,7 +30,7 @@ body {
 
     <h2>Page d'accueil</h2>
 
-    <input type="text" id="texte" placeholder="Correncon v05 - entre ton identifiant">
+    <input type="text" id="texte" placeholder="Correncon v06 - entre ton identifiant">
     <button onclick="envoyer()">Envoyer</button>
 
     <script>
