@@ -1,3 +1,43 @@
+<script>
+
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwJIfBh2_g8s9PLKu4Es8u9qm23fYJU2oODOFr2nYOb4PIN_UskHl31amUNerdk3oSkjA/exec";
+
+function envoyer() {
+
+  let texte = document.getElementById("texte").value;
+
+  fetch(SCRIPT_URL + "?cde=" + encodeURIComponent(texte))
+    .then(response => response.text())
+    .then(data => {
+
+      console.log(data);   // récupère la totalité de la réponse
+
+      if (data.startsWith("input:OK")) {
+        window.location.href = "page2.html";
+      }
+
+    })
+    .catch(error => {
+      console.error(error);
+    });
+}
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <!DOCTYPE html>
 <html>
 <head>
