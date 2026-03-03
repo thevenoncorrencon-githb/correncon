@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Commande</title>
+</head>
+<body>
+
+<h2>Page de commande</h2>
+
+<button onclick="envoyerCmd('Marche')">Marche</button>
+<button onclick="envoyerCmd('Arret')">Arret</button>
+<button onclick="envoyerCmd('Etat')">Etat</button>
+
+<br><br>
+
+<textarea id="zoneReponse" rows="5" cols="40"></textarea>
+
+<script>
+
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwJIfBh2_g8s9PLKu4Es8u9qm23fYJU2oODOFr2nYOb4PIN_UskHl31amUNerdk3oSkjA/exec";
+
+function envoyerCmd(cmd) {
+
+  fetch(SCRIPT_URL + "?cde=" + encodeURIComponent(cmd))
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById("zoneReponse").value = data;
+    })
+    .catch(error => {
+      alert("Erreur : " + error);
+    });
+}
+
+</script>
+
+</body>
+</html>
