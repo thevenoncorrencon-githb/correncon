@@ -1,74 +1,123 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<title>Page d'accueil</title>
-<style>
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-
-    display: flex;
-    flex-direction: column;      /* empile verticalement */
-    align-items: center;         /* centre horizontalement */
-    padding-top: 40px;           /* espace en haut */
-}
-
-.container {
-    width: 300px;
-    background: white;
-    padding: 20px;
-    margin-bottom: 20px;         /* espace entre blocs */
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    text-align: center;
-}
-</style>
-
-
-
-<body>
-
-    <h2>Page d'accueil</h2>
-
-    <input type="text" id="texte" placeholder="Correncon v07 - entre ton identifiant">
-    <button onclick="envoyer()">Envoyer</button>
-
-    <script>
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwJIfBh2_g8s9PLKu4Es8u9qm23fYJU2oODOFr2nYOb4PIN_UskHl31amUNerdk3oSkjA/exec";
-        //const SCRIPT_URL = "COLLE_ICI_TON_URL_GOOGLE_SCRIPT";
-
-        function envoyer() {
-
-            let texte = document.getElementById("texte").value;
-
-            fetch(SCRIPT_URL + "?cde=" + encodeURIComponent(texte))
-                .then(response => response.text())
-                .then(data => {
-
-                    // récupération complète de la réponse
-                    console.log("Réponse complète :", data);
-
-                    // si la réponse commence par OK → page2
-                    if (data.startsWith("input:OK")) {
-                        window.location.href = "page2.html";
-                    }
-
-                })
-                .catch(error => {
-                    console.error("Erreur :", error);
-                });
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interface de Contrôle Élargie</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; padding-top: 50px; background: #f0f2f5; }
+        
+        /* Fenêtres élargies (x2) : passage à 640px */
+        .card { 
+            background: white; 
+            padding: 30px; 
+            border-radius: 12px; 
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15); 
+            width: 640px; 
+            text-align: center; 
         }
 
-    </script>
+        .hidden { display: none; }
+        
+        input, button { 
+            width: 100%; 
+            padding: 15px; 
+            margin: 10px 0; 
+            border-radius: 8px; 
+            border: 1px solid #ddd; 
+            box-sizing: border-box; 
+            font-size: 18px; 
+        }
 
+        button { 
+            background: #007bff; 
+            color: white; 
+            border: none; 
+            cursor: pointer; 
+            font-weight: bold; 
+            transition: transform 0.1s, background 0.2s; 
+        }
+
+        button:active { transform: scale(0.98); }
+        button:hover { opacity: 0.9; }
+
+        /* Style spécifique pour les boutons de commande */
+        .btn-cmd { margin-top: 10px; }
+
+        /* Affichage placé en bas avec un style bien lisible */
+        #affichage { 
+            margin-top: 25px; 
+            padding: 20px; 
+            background: #2c3e50; 
+            color: #ecf0f1; 
+            border-radius: 8px; 
+            min-height: 30px; 
+            font-size: 20px;
+            font-family: 'Courier New', Courier, monospace;
+            border-left: 5px solid #007bff;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="page1" class="card">
+        <h1 style="margin-top:0; color:#333;">Connexion Système</h1>
+        <input type="text" id="idSaisi" placeholder="Identifiant">
+        <button onclick="envoyer('login')">SE CONNECTER</button>
+    </div>
+
+    <div id="page2" class="card hidden">
+        <h1 style="margin-top:0; color:#333;">Tableau de Bord</h1>
+        
+        <button class="btn-cmd" onclick="envoyer('marche')" style="background:#2ecc71">MARCHE</button>
+        <button class="btn-cmd" onclick="envoyer('arret')" style="background:#e74c3c">ARRÊT</button>
+        <button class="btn-cmd" onclick="envoyer('etat')" style="background:#f1c40f; color:#000">VÉRIFIER ÉTAT</button>
+
+        <div id="affichage">En attente d'action...</div>
+    </div>
+
+    <script>
+        // REMPLACEZ PAR VOTRE URL DE DÉPLOIEMENT GOOGLE SCRIPT
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwFVmZQaJK1jDfC2NVunhe0mjpIQUCC3_Ltf9nUq5h_l3iOI1_wuM_zJeu92fqWQuYExQ/exec";
+
+        async function envoyer(type) {
+            const display = document.getElementById('affichage');
+            let valeurAEnvoyer = "";
+
+            if (type === 'login') {
+                const id = document.getElementById('idSaisi').value;
+                valeurAEnvoyer = "login:" + id;
+            } else {
+                valeurAEnvoyer = type;
+                display.innerText = "> Envoi de la commande : " + type.toUpperCase() + "...";
+            }
+
+            try {
+                const urlFinale = `${SCRIPT_URL}?cde=${encodeURIComponent(valeurAEnvoyer)}`;
+                const response = await fetch(urlFinale);
+                const texteBrut = await response.text();
+
+                if (type === 'login') {
+                    if (texteBrut.startsWith("logged")) {
+                        document.getElementById('page1').classList.add('hidden');
+                        document.getElementById('page2').classList.remove('hidden');
+                        display.innerText = texteBrut; 
+                    } else {
+                        alert("Erreur : " + texteBrut);
+                    }
+                } else {
+                    // Mise à jour de l'affichage en bas
+                    display.innerText = "> " + texteBrut;
+                }
+            } catch (error) {
+                console.error("Erreur:", error);
+                display.innerText = "> ERREUR DE CONNEXION";
+            }
+        }
+    </script>
 </body>
 </html>
-
-
-
-
 
 
 
