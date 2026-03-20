@@ -62,17 +62,17 @@
 <body>
 
     <div id="page1" class="card">
-        <h1 style="margin-top:0; color:#333;">Connexion Système</h1>
-        <input type="text" id="idSaisi" placeholder="Identifiant">
+        <h1 style="margin-top:0; color:#333;">Accès distant au chauffage Correncon</h1>
+        <input type="text" id="idSaisi" placeholder="Entre ton identifiant ici">
         <button onclick="envoyer('login')">SE CONNECTER</button>
     </div>
 
     <div id="page2" class="card hidden">
-        <h1 style="margin-top:0; color:#333;">Tableau de Bord</h1>
+        <h1 style="margin-top:0; color:#333;">Télécommande Chauffage Correncon</h1>
         
-        <button class="btn-cmd" onclick="envoyer('marche')" style="background:#2ecc71">MARCHE</button>
-        <button class="btn-cmd" onclick="envoyer('arret')" style="background:#e74c3c">ARRÊT</button>
-        <button class="btn-cmd" onclick="envoyer('etat')" style="background:#f1c40f; color:#000">VÉRIFIER ÉTAT</button>
+        <button class="btn-cmd" onclick="envoyer('marche')" style="background:#007bff">Mise en route du chauffage</button>
+        <button class="btn-cmd" onclick="envoyer('arret')" style="background:#007bff">Arrêt du chauffage</button>
+        <button class="btn-cmd" onclick="envoyer('etat')" style="background:#007bff">Mise à jour du monitoring</button>
 
         <div id="affichage">En attente d'action...</div>
     </div>
@@ -102,7 +102,7 @@
                     if (texteBrut.startsWith("logged")) {
                         document.getElementById('page1').classList.add('hidden');
                         document.getElementById('page2').classList.remove('hidden');
-                        display.innerText = texteBrut; 
+                        display.innerText = "swhtml002\n"+texteBrut; 
                     } else {
                         alert("Erreur : " + texteBrut);
                     }
@@ -118,7 +118,3 @@
     </script>
 </body>
 </html>
-
-
-
-
