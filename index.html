@@ -3,118 +3,194 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interface de Contrôle Élargie</title>
+    <title>Chauffage Corrençon</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; padding-top: 50px; background: #f0f2f5; }
-        
-        /* Fenêtres élargies (x2) : passage à 640px */
-        .card { 
-            background: white; 
-            padding: 30px; 
-            border-radius: 12px; 
-            box-shadow: 0 4px 20px rgba(0,0,0,0.15); 
-            width: 640px; 
-            text-align: center; 
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
         }
-
-        .hidden { display: none; }
-        
-        input, button { 
-            width: 100%; 
-            padding: 15px; 
-            margin: 10px 0; 
-            border-radius: 8px; 
-            border: 1px solid #ddd; 
-            box-sizing: border-box; 
-            font-size: 18px; 
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+            position: relative; /* Nécessaire pour positionner la croix absolue */
         }
-
-        button { 
-            background: #007bff; 
-            color: white; 
-            border: none; 
-            cursor: pointer; 
-            font-weight: bold; 
-            transition: transform 0.1s, background 0.2s; 
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            padding-right: 20px; /* Évite la superposition avec la croix */
         }
-
-        button:active { transform: scale(0.98); }
-        button:hover { opacity: 0.9; }
-
-        /* Style spécifique pour les boutons de commande */
-        .btn-cmd { margin-top: 10px; }
-
-        /* Affichage placé en bas avec un style bien lisible */
-        #affichage { 
-            margin-top: 25px; 
-            padding: 20px; 
-            background: #2c3e50; 
-            color: #ecf0f1; 
-            border-radius: 8px; 
-            min-height: 30px; 
-            font-size: 20px;
-            font-family: 'Courier New', Courier, monospace;
-            border-left: 5px solid #007bff;
-            text-align: left;
+        /* Style pour la croix de fermeture */
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #aaa;
+            cursor: pointer;
+            line-height: 1;
+            transition: color 0.2s;
+        }
+        .close-btn:hover {
+            color: #333;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        /* Style pour le champ de texte multiligne */
+        textarea {
+            width: 100%;
+            height: 100px; /* Hauteur par défaut pour plusieurs lignes */
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+            resize: vertical; /* Permet à l'utilisateur d'ajuster la hauteur si besoin */
+            font-family: Arial, sans-serif;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.2s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .btn-group button {
+            margin-top: 0;
+        }
+        .hidden {
+            display: none !important;
         }
     </style>
 </head>
 <body>
 
-    <div id="page1" class="card">
-        <h1 style="margin-top:0; color:#333;">Accès distant au chauffage Correncon</h1>
-        <input type="text" id="idSaisi" placeholder="Entre ton identifiant ici">
-        <button onclick="envoyer('login')">SE CONNECTER</button>
+    <div id="page-connexion" class="container">
+        <span class="close-btn" onclick="fermerFenetre()">&times;</span>
+        <h1>Chauffage Corrençon</h1>
+        <input type="text" id="identifiant" placeholder="Entrez votre identifiant">
+        <button id="btn-connexion" onclick="connexion()">Connexion</button>
     </div>
 
-    <div id="page2" class="card hidden">
-        <h1 style="margin-top:0; color:#333;">Télécommande Chauffage Correncon</h1>
+    <div id="page-accueil" class="container hidden">
+        <span class="close-btn" onclick="fermerFenetre()">&times;</span>
+        <h1>Bienvenue</h1>
         
-        <button class="btn-cmd" onclick="envoyer('marche')" style="background:#007bff">Mise en route du chauffage</button>
-        <button class="btn-cmd" onclick="envoyer('arret')" style="background:#007bff">Arrêt du chauffage</button>
-        <button class="btn-cmd" onclick="envoyer('etat')" style="background:#007bff">Mise à jour du monitoring</button>
+        <div class="btn-group">
+            <button onclick="envoyerCommande('marche')">Marche</button>
+            <button onclick="envoyerCommande('arret')">Arrêt</button>
+            <button onclick="envoyerCommande('etat')">État</button>
+        </div>
 
-        <div id="affichage">En attente d'action...</div>
+        <textarea id="champ-statut" placeholder="Statut ou réponse..."></textarea>
     </div>
 
     <script>
-        // REMPLACEZ PAR VOTRE URL DE DÉPLOIEMENT GOOGLE SCRIPT
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwFVmZQaJK1jDfC2NVunhe0mjpIQUCC3_Ltf9nUq5h_l3iOI1_wuM_zJeu92fqWQuYExQ/exec";
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyDjOHXzJo6uxGA_bOpq--GlXbi0jgXIBA68GO63dubATMus8Y5MrLUcQKUOO-d6J661A/exec";
 
-        async function envoyer(type) {
-            const display = document.getElementById('affichage');
-            let valeurAEnvoyer = "";
+        let identifiantValide = "";
 
-            if (type === 'login') {
-                const id = document.getElementById('idSaisi').value;
-                valeurAEnvoyer = "login:" + id;
-            } else {
-                valeurAEnvoyer = type;
-                display.innerText = "> Envoi de la commande : " + type.toUpperCase() + "...";
+        // Fonction associée aux croix pour fermer/réinitialiser l'affichage
+        function fermerFenetre() {
+            identifiantValide = "";
+            document.getElementById('identifiant').value = "";
+            document.getElementById('champ-statut').value = "";
+            
+            // Retour forcé à la page de connexion
+            document.getElementById('page-accueil').classList.add('hidden');
+            document.getElementById('page-connexion').classList.remove('hidden');
+        }
+
+        async function connexion() {
+            const inputIdentifiant = document.getElementById('identifiant');
+            const idValue = inputIdentifiant.value.trim();
+
+            if (!idValue) {
+                alert("Veuillez saisir un identifiant.");
+                return;
             }
 
             try {
-                const urlFinale = `${SCRIPT_URL}?cde=${encodeURIComponent(valeurAEnvoyer)}`;
-                const response = await fetch(urlFinale);
-                const texteBrut = await response.text();
+                const donneeCde = `connexion,${idValue}`;
+                const url = `${GOOGLE_SCRIPT_URL}?cde=${encodeURIComponent(donneeCde)}`;
 
-                if (type === 'login') {
-                    if (texteBrut.startsWith("logged")) {
-                        document.getElementById('page1').classList.add('hidden');
-                        document.getElementById('page2').classList.remove('hidden');
-                        display.innerText = "Monitoring:swhtml002-"+texteBrut; 
-                    } else {
-                        alert("Erreur : " + texteBrut);
-                    }
+                const response = await fetch(url, { method: 'GET' });
+                const texteRetour = await response.text(); 
+
+                if (texteRetour.startsWith("identifiant inconnu")) {
+                    inputIdentifiant.value = texteRetour;
                 } else {
-                    // Mise à jour de l'affichage en bas
-                    display.innerText = "> " + texteBrut;
+                    identifiantValide = idValue;
+                    document.getElementById('page-connexion').classList.add('hidden');
+                    document.getElementById('page-accueil').classList.remove('hidden');
+                    
+                    document.getElementById('champ-statut').value = texteRetour;
                 }
+
             } catch (error) {
-                console.error("Erreur:", error);
-                display.innerText = "> ERREUR DE CONNEXION";
+                console.error("Erreur lors de la connexion :", error);
+                alert("Impossible de joindre le serveur.");
+            }
+        }
+
+        async function envoyerCommande(nomBouton) {
+            const champStatut = document.getElementById('champ-statut');
+            let contenuChamp = champStatut.value;
+
+            // Vérification : on n'envoie le contenu que s'il commence par "cde"
+            if (!contenuChamp.startsWith("cde")) {
+                contenuChamp = ""; 
+            }
+
+            try {
+                const donneeCde = `${nomBouton},${identifiantValide},${contenuChamp}`;
+                const url = `${GOOGLE_SCRIPT_URL}?cde=${encodeURIComponent(donneeCde)}`;
+
+                const response = await fetch(url, { method: 'GET' });
+                const texteRetour = await response.text();
+                
+                champStatut.value = texteRetour;
+
+            } catch (error) {
+                console.error("Erreur lors de l'envoi de la commande :", error);
             }
         }
     </script>
 </body>
 </html>
+
+
+
+
+
